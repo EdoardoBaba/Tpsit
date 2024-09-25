@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore di Numeri Casuali</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #numbers, #numbers2 {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        #generate-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .box {
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            font-size: 24px;
+            text-align: center;
+            padding: 10px;
+        }
+        #difference-box {
+            width: 200px;
+            height: 50px;
+            background-color: lightgray;
+            margin: 20px auto;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generatore di Numeri Casuali</h1>
+    <button id="generate-button">Genera Numeri Casuali</button>
+    
+    <div id="numbers"></div>
+    <div id="box1" class="box">Pari, Dispari o Primo?</div>
+    
+    <div id="numbers2"></div>
+    <div id="box2" class="box">Pari, Dispari o Primo?</div>
+
+    <div id="difference-box">Differenza: 0</div>
+
+    <script>
+        // Funzione per generare un numero casuale tra 1 e 100
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        // Funzione per controllare se un numero è primo
+        function isPrime(num) {
+            if (num <= 1) return false; // 0 e 1 non sono primi
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false; // Divisibile per un numero diverso da 1 e se stesso
+            }
+            return true; // È primo
+        }
+
+        // Funzione per analizzare il numero (pari/dispari/primo)
+        function analyzeNumber(num, boxDiv) {
+            let text = "";
+
+            // Verifica se il numero è pari o dispari
+            if (num % 2 === 0) {
+                text = 'Pari';
+                boxDiv.style.backgroundColor = 'lightblue'; // Colore per numeri pari
+            } else {
+                text = 'Dispari';
+                boxDiv.style.backgroundColor = 'lightcoral'; // Colore per numeri dispari
+            }
+
+            // Controlla se è primo
+            if (isPrime(num)) {
+                text += ' e Primo';
+                boxDiv.style.backgroundColor = 'lightgreen'; // Colore per numeri primi
+            }
+
+            boxDiv.textContent = text;
+        }
+
+        // Funzione per aggiornare il contenuto della pagina
+        function updateNumbers() {
+            const numbersDiv1 = document.getElementById('numbers');
+            const boxDiv1 = document.getElementById('box1');
+            const numbersDiv2 = document.getElementById('numbers2');
+            const boxDiv2 = document.getElementById('box2');
+            const diffBox = document.getElementById('difference-box');
+
+            // Genera i due numeri casuali
+            const randomNumber1 = getRandomNumber();
+            const randomNumber2 = getRandomNumber();
+
+            // Mostra i numeri casuali generati
+            numbersDiv1.textContent = `Primo Numero Casuale: ${randomNumber1}`;
+            numbersDiv2.textContent = `Secondo Numero Casuale: ${randomNumber2}`;
+
+            // Analizza entrambi i numeri
+            analyzeNumber(randomNumber1, boxDiv1);
+            analyzeNumber(randomNumber2, boxDiv2);
+
+            // Calcola e mostra la differenza
+            const difference = Math.abs(randomNumber1 - randomNumber2);
+            diffBox.textContent = `Differenza: ${difference}`;
+        }
+
+        // Aggiunge un event listener al pulsante
+        document.getElementById('generate-button').addEventListener('click', updateNumbers);
+    </script>
+</body>
+</html>
